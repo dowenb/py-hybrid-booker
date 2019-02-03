@@ -1,6 +1,9 @@
 #tests_phb.py
 from assertpy import assert_that
-import rbp_sdk as rb
+import rbp_sdk as booker
 print(
-    rb.get_bookings(rb.get_auth, 1).text
+    booker.create_booking(
+        booker.get_auth(), 
+        booker.generate_booking()
+    ).json()
 )
