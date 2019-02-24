@@ -2,11 +2,11 @@
 from assertpy import assert_that
 from base_test_case import BaseTestCase
 import rbp_sdk as booker
+from parameterized import parameterized
 
 class HybridTestCase(BaseTestCase):
 
     def test_room_booking(self):
-        bookings = self.setupTestBookings() #setup test data
         self.open(booker._url('/'))
         for i in range(4):
             self.click('#next')

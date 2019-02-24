@@ -3,9 +3,9 @@ import requests, random
 
 roomNumber = 200
 
-def _url(path):
+def _url(path, url='https://automationintesting.online'):
     return(
-        'https://automationintesting.online' + path
+        url + path
     )
 
 def get_auth(username='admin', password='password'):
@@ -17,6 +17,7 @@ def get_auth(username='admin', password='password'):
         }
         ).json()['token']
     )
+    #TODO store user and password somewhere better
 
 def get_bookings(roomid, auth_token = get_auth()):
     return(
@@ -49,10 +50,10 @@ def create_room(room, auth_token = get_auth()):
     )
 
 def generate_booking():
-    room = create_room(generate_room())
-    roomid = room.json()['roomid']
+    roomid = create_room(generate_room()).json()['roomid']
+    #roomid = room.json()['roomid']
     firstname = random.choice(['Jane', 'James', 'Dave', 'Sally', 'Ben', 'Nick'])
-    lastname = random.choice(['Smith', 'Jones', 'Tylor', 'Tinker'])
+    lastname = random.choice(['Smith', 'Jones', 'Taylor', 'Tinker'])
     totalprice = random.choice(['50', '150', '200', '225', '350'])
     depositpaid = random.choice(['true', 'false'])
     checkin = random.choice(['2019-01-01', '2019-01-05', '2019-01-07', '2019-01-11'])
@@ -93,3 +94,19 @@ def get_rooms():
     return(
         requests.get(_url('/room')).json()
     )
+
+def remove_booking(booking_id, auth_token = get_auth()):
+    return(
+        requests.delete(_url('/booking/') + booking_id,
+            cookies={
+                "token" : auth_token
+            })
+    )
+
+def remove_room(room_id, auth_token = get_auth()):
+    return(
+        requests.delete(_url('/room/') + room_id,
+            cookies={
+                "token" : auth_token
+            })
+    )   
