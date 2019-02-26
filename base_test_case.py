@@ -1,5 +1,6 @@
 from seleniumbase import BaseCase
 import rbp_sdk as booker
+from assertpy import assert_that
 
 class BaseTestCase(BaseCase):
 
@@ -19,6 +20,8 @@ class BaseTestCase(BaseCase):
             for room in rooms:
                 id = str(room['roomid'])
                 booker.remove_room(id)
+        rooms = booker.get_rooms()
+        assert_that(rooms).is_empty()
 
     def setUp(self):
         super(BaseTestCase, self).setUp()

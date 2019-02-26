@@ -6,6 +6,7 @@ import rbp_sdk as booker
 class HybridTestCase(BaseTestCase):
 
     def test_room_booking(self):
+        #Testing the API has setup the pre-requisite data correctly
         rooms = booker.get_rooms()
         assert_that(rooms).is_not_empty()
         for room in rooms:
@@ -21,5 +22,5 @@ class HybridTestCase(BaseTestCase):
         self.send_keys('#password', 'password')
         self.click('#doLogin')
         for i in range (200, 209):
-            value = str(i)
-            self.assert_text_visible(value)
+            value = '#roomNumber' + str(i)
+            self.assert_element(value)
