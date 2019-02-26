@@ -4,7 +4,7 @@ import rbp_sdk as booker
 class BaseTestCase(BaseCase):
 
     bookings = {}
-
+    
     def setupTestBookings(self):
         testdata_bookings = {}
         for i in range(10):
@@ -13,21 +13,21 @@ class BaseTestCase(BaseCase):
             ).json()
         return testdata_bookings
 
-    def tearDownBookings(self):
-        global bookings
-        try:
-            for booking in bookings:
-                booker.remove_booking(booking['id'])
-        except:
-            pass
+    def remove_all_rooms(self):
+        rooms = booker.get_rooms()
+        if rooms:
+            for room in rooms:
+                id = str(room['roomid'])
+                booker.remove_room(id)
 
     def setUp(self):
         super(BaseTestCase, self).setUp()
         # Add custom setUp code for your tests AFTER the super().setUp()
+        self.remove_all_rooms()
         global bookings
         bookings = self.setupTestBookings() #setup test data
 
     def tearDown(self):
         # Add custom tearDown code for your tests BEFORE the super().tearDown()
-        self.tearDownBookings()
+        self.remove_all_rooms()
         super(BaseTestCase, self).tearDown()

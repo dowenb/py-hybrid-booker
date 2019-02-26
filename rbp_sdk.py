@@ -51,7 +51,6 @@ def create_room(room, auth_token = get_auth()):
 
 def generate_booking():
     roomid = create_room(generate_room()).json()['roomid']
-    #roomid = room.json()['roomid']
     firstname = random.choice(['Jane', 'James', 'Dave', 'Sally', 'Ben', 'Nick'])
     lastname = random.choice(['Smith', 'Jones', 'Taylor', 'Tinker'])
     totalprice = random.choice(['50', '150', '200', '225', '350'])
@@ -74,6 +73,7 @@ def generate_booking():
 
 def generate_room():
     global roomNumber
+    _roomNumber = roomNumber
     roomNumber += 1
     type = random.choice(['Single', 'Double', 'King', 'Super King', 'Queen'])
     beds = random.choice(['1', '2', '3', '4'])
@@ -82,7 +82,7 @@ def generate_room():
 
     return(
         {
-            "roomNumber": roomNumber,
+            "roomNumber": _roomNumber,
             "type": type,
             "beds": beds,
             "accessible": accessible,
@@ -92,7 +92,7 @@ def generate_room():
 
 def get_rooms():
     return(
-        requests.get(_url('/room')).json()
+        requests.get(_url('/room/')).json()['rooms']
     )
 
 def remove_booking(booking_id, auth_token = get_auth()):

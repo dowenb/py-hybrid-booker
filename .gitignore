@@ -116,3 +116,4 @@ dmypy.json
 .vscode/launch.json
 report.html
 assets/style.css
+*.png
